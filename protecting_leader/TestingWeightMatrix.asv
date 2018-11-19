@@ -1,0 +1,30 @@
+clear all
+N=4;
+
+% Complete graph
+L = completeGL(N);
+
+function [theta] = cal_theta(i, j)
+    theta = (pi/(N-1))*mod(j-i,N-1);
+end
+
+
+radius = .5;
+id = 2 * (radius*sin(pi/(N-1)));
+ido = 2* radius*sin((pi/(N-1))*floor((N-1)/2)); % Opposite 
+W=zeros(N,N);
+for i= 1:N-1
+    for j= 1:N-1
+        if i == j
+            W(i,j) = 0;
+        elseif (pi/(N-1))*floor(mod(j-i,N-1)/2) < pi/2
+            W(i,j) = 2* radius*sin(cal_theta(i,j));
+        elseif (pi/(N-1))*floor(mod(j-i,N-1)/2) > pi/2
+            W(i,j) = 2* radius*sin((pi/(N-1))*mod(j-i,N-1));
+        elseif (pi/(N-1))*floor(mod(j-i,N-1)/2) > pi/2
+        end  
+    end
+end
+W(:,N) = radius;
+W(N,:) = radius;
+W

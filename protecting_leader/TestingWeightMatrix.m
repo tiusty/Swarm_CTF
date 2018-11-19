@@ -1,5 +1,5 @@
 clear all
-N=7;
+N=8;
 
 % Complete graph
 L = completeGL(N);
@@ -12,15 +12,20 @@ for i= 1:N-1
     for j= 1:N-1
         if i == j
             W(i,j) = 0;
-        elseif i == mod(j + 1, N-1) || (mod(j + 1, N-1) == 0 && i == N-1) || i == mod(j - 1, N-1) || (mod(j - 1, N-1) == 0 && i == N-1)
-                W(i,j) = id;
-        elseif i == mod(j - floor((N-1)/2), N-1) || (mod(j - floor((N-1)/2), N-1) == 0 && i == N-1) || i == mod(j - ceil((N-1)/2), N-1) || (mod(j - ceil((N-1)/2), N-1) == 0 && i == N-1) 
-            W(i,j) = ido;
-        else
-            W(i,j) = 0;
+        elseif cal_theta(i,j , N-1) < pi/2
+            W(i,j) = 2* radius*sin(cal_theta(i,j, N-1));
+        elseif cal_theta(i,j, N-1) > pi/2
+            W(i,j) = 2* radius*sin(pi - cal_theta(i,j, N-1));
+        elseif cal_theta(i,j, N-1) == pi/2
+            W(i,j) = 2 * radius;
         end  
     end
 end
 W(:,N) = radius;
 W(N,:) = radius;
 W
+
+function [theta] = cal_theta(i, j, N)
+    theta = (pi/N)*mod(j-i,N);
+end
+
