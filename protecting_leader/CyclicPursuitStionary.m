@@ -37,17 +37,7 @@ for i= 1:N-1
 end
 W(:,N) = radius;
 W(N,:) = radius;
-W
 
-
-
-% W = [0 id ido id radius;
-%     id 0 id ido radius;
-%     ido id 0 id radius;
-%     id ido id 0 radius;
-%     radius radius radius radius 0];
-
-% figure(2)
 result = 0;
 while( result == 0)
     
@@ -65,20 +55,11 @@ while( result == 0)
         end
         sum(dx)
     end
-   
-%     label = {'1', '2', '3', '4', '5', '6'};
-%     plot(x(1,:), x(2,:), 'ro', 'MarkerSize', 15);
-%     text(x(1,:), x(2,:), label)
-%     hold on
-%     quiver(x(1,:), x(2,:), dx(1,:), dx(2,:))
-%     axis equal
-%     hold off
-   
-    
+      
     dx = si_to_uni_dyn(dx, xuni);                            % Convert single integrator inputs into unicycle inputs
 %     dx = si_barrier_certificate(dx, x);                    
     rbtm.set_velocities(1:N, dx); rbtm.step();              % Set new velocities to robots and update
-    if all(abs(sum(dx)) < .03)
+    if all(abs(sum(dx)) < .8)
         result = 1;
     end
     sum(dx)
