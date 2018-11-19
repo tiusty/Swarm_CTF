@@ -1,6 +1,6 @@
 clear all, close all, clc
 
-N=7;                        % Number of agents
+N=5;                        % Number of agents
 dt=0.01;                   % numerical steplength
 max_iter = 10000;                           
 
@@ -28,18 +28,18 @@ for i= 1:N-1
             W(i,j) = 0;
         elseif i == mod(j + 1, N-1) || i == mod(j - 1, N-1)
                 W(i,j) = id;
-        elseif i == mod(j - floor((N-1)/2), N-1) || i == mod(j - ceil((N-1)/2), N-1)
+        elseif i == mod(j - floor((N-1)/2),  || i == j - ceil((N-1)/2)
             W(i,j) = ido;
         else
             W(i,j) = 0;
         end  
     end
 end
-% W = [0 id ido id radius;
-%     id 0 id ido radius;
-%     ido id 0 id radius;
-%     id ido id 0 radius;
-%     radius radius radius radius 0];
+W = [0 id ido id radius;
+    id 0 id ido radius;
+    ido id 0 id radius;
+    id ido id 0 radius;
+    radius radius radius radius 0];
 
 figure(2)
 result = 0;
