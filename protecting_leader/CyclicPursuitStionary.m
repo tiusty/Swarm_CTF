@@ -17,6 +17,7 @@ rbtm.step();                                                % Run robotarium ste
 
 % Complete graph
 L = completeGL(N);
+% L(N,:) = 0; % This makes the center node stationary
 
 radius = .5;
 id = 2 * (radius*sin(pi/(N-1)));
@@ -59,7 +60,7 @@ while( result == 0)
     dx = si_to_uni_dyn(dx, xuni);                            % Convert single integrator inputs into unicycle inputs
 %     dx = si_barrier_certificate(dx, x);                    
     rbtm.set_velocities(1:N, dx); rbtm.step();              % Set new velocities to robots and update
-    if all(abs(sum(dx)) < .8)
+    if all(abs(sum(dx)) < .3)
         result = 1;
     end
     sum(dx)
