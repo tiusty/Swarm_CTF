@@ -26,22 +26,25 @@ for i= 1:N-1
     for j= 1:N-1
         if i == j
             W(i,j) = 0;
-        elseif i == mod(j + 1, N-1) || i == mod(j - 1, N-1)
+        elseif i == mod(j + 1, N-1) || (mod(j + 1, N-1) == 0 && i == N-1) || i == mod(j - 1, N-1) || (mod(j - 1, N-1) == 0 && i == N-1)
                 W(i,j) = id;
-        elseif i == mod(j - floor((N-1)/2), N-1) || i == mod(j - ceil((N-1)/2), N-1)
+        elseif i == mod(j - floor((N-1)/2), N-1) || (mod(j - floor((N-1)/2), N-1) == 0 && i == N-1) || i == mod(j - ceil((N-1)/2), N-1) || (mod(j - ceil((N-1)/2), N-1) == 0 && i == N-1) 
             W(i,j) = ido;
         else
             W(i,j) = 0;
         end  
     end
 end
+W(:,N) = radius;
+W(N,:) = radius;
+
 % W = [0 id ido id radius;
 %     id 0 id ido radius;
 %     ido id 0 id radius;
 %     id ido id 0 radius;
 %     radius radius radius radius 0];
 
-figure(2)
+% figure(2)
 result = 0;
 while( result == 0)
     
@@ -60,13 +63,13 @@ while( result == 0)
         sum(dx)
     end
    
-    label = {'1', '2', '3', '4', '5'};
-    plot(x(1,:), x(2,:), 'ro', 'MarkerSize', 15);
-    text(x(1,:), x(2,:), label)
-    hold on
-    quiver(x(1,:), x(2,:), dx(1,:), dx(2,:))
-    axis equal
-    hold off
+%     label = {'1', '2', '3', '4', '5', '6'};
+%     plot(x(1,:), x(2,:), 'ro', 'MarkerSize', 15);
+%     text(x(1,:), x(2,:), label)
+%     hold on
+%     quiver(x(1,:), x(2,:), dx(1,:), dx(2,:))
+%     axis equal
+%     hold off
    
     
     dx = si_to_uni_dyn(dx, xuni);                            % Convert single integrator inputs into unicycle inputs

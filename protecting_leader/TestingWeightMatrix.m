@@ -1,5 +1,5 @@
 clear all
-N=6;
+N=7;
 
 % Complete graph
 L = completeGL(N);
@@ -21,3 +21,6 @@ for i= 1:N-1
         end  
     end
 end
+W(:,N) = radius;
+W(N,:) = radius;
+W
