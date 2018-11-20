@@ -46,44 +46,55 @@ function [] = formation_control_circle(N, rbtm, si_to_uni_dyn)
     % Loop until the formation is achieved
     while( result == 0)
 
-        % Get new data and initialize new null velocities
-        
         % Get new robots' states
         xuni = rbtm.get_poses(); 
+        
         % Extract single integrator states
         dx=zeros(2,N);    
+        
         % Initialize velocities to zero
         x = xuni(1:2,:);                                        
 
-        % Generate xdot
+        % Generate xdot for all the agents
         for i= 1:N
             neighbors = topological_neighbors(L, i); 
             for j= neighbors
                 dx(:,i) = dx(:,i) + (x(:,j) - x(:,i))*((norm(x(:,j) - x(:,i)) - W(i,j))/(norm(x(:,j) - x(:,i) + W(i,j))));
             end
         end
-
-        dx = si_to_uni_dyn(dx, xuni);                            % Convert single integrator inputs into unicycle inputs
-%         dx = si_barrier_certificate(dx, x);   % Needed in robotarium                 
-        rbtm.set_velocities(1:N, dx); rbtm.step();              % Set new velocities to robots and update
+        
+        % Convert single integrator inputs into unicycle inputs
+        dx = si_to_uni_dyn(dx, xuni); 
+        
+        % Barrier certficate for using preventing crashing in robotarium
+%         dx = si_barrier_certificate(dx, x);                    
+       
+        % Set new velocities to robots and update
+        rbtm.set_velocities(1:N, dx); rbtm.step();              
        
         % Exit condition:
         %   Tests to see if all the weight conditions are met
         done = 0;
         for i=1:N-1
             for j=1:N-1
+                % Checks the weight to the current position to see if all
+                %   the agents met the desired formation
+                % A small offset is given since the agent doesn't need to
+                % be exactly on the point
                 if norm(x(:,i)-x(:,j)) < W(i,j) - .001 || norm(x(:,i)-x(:,j)) > W(i,j) + .001
                      done = 1;                    
                 end
             end  
         end
         
+        % If all of the nodes are within the weight minus an offest then
+        % formation is acheived!
         if done == 0
             result = 1;
         end
     end
  
-disp('Done with forming circle')
+disp('Done with formation')
 
 end
 
