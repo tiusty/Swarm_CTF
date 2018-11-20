@@ -67,19 +67,13 @@ function [] = formation_control_circle(N, rbtm, si_to_uni_dyn)
 %         dx = si_barrier_certificate(dx, x);   % Needed in robotarium                 
         rbtm.set_velocities(1:N, dx); rbtm.step();              % Set new velocities to robots and update
        
-        % Exit condition, currently achieved is all nodes are close to not
-        % moving
-%         if all(abs(sum(dx)) < .3)
-%             result = 1;
-%         end
+        % Exit condition:
+        %   Tests to see if all the weight conditions are met
         done = 0;
         for i=1:N-1
             for j=1:N-1
-                if norm(x(:,i)-x(:,j)) > W(i,j) - .001 && norm(x(:,i)-x(:,j)) < W(i,j) + .001
-                    disp('yep!');
-                else
-                    disp('nope');
-                    done = 1;
+                if norm(x(:,i)-x(:,j)) < W(i,j) - .001 || norm(x(:,i)-x(:,j)) > W(i,j) + .001
+                     done = 1;                    
                 end
             end  
         end
