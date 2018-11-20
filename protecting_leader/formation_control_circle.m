@@ -1,7 +1,7 @@
 
 function [] = formation_control_circle(N, rbtm, si_to_uni_dyn) 
 %   Runs formation control on a graph to put the agents in a circle
-%   around node N (which goes to (0,0).
+%   around node N. Currently node N also moves to fit the formation
 %
 %   Arguments:
 %       N: (int) -> The number of nodes including the center agent in the
