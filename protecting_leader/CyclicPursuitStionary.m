@@ -5,17 +5,17 @@ dt=0.01;                   % numerical steplength
 max_iter = 10000;                           
 
 % Initialize robotarium
-rb = RobotariumBuilder();
-rbtm = rb.set_number_of_agents(N).set_save_data(false).build();
+r = Robotarium('NumberOfRobots', N, 'ShowFigure', true);
+
 [si_to_uni_dyn] = create_si_to_uni_mapping3();
 
 % Initialize robots
-xuni = rbtm.get_poses();                                    % States of real unicycle robots
+xuni = r.get_poses();                                    % States of real unicycle robots
 x = xuni(1:2,:);                                            % x-y positions only
-rbtm.set_velocities(1:N, zeros(2,N));                       % Assign dummy zero velocity
-rbtm.step();                                                % Run robotarium step
+r.set_velocities(1:N, zeros(2,N));                       % Assign dummy zero velocity
+r.step();                                                % Run robotarium step
 
-formation_control_circle(N, rbtm ,si_to_uni_dyn)
+formation_control_circle(N, r , si_to_uni_dyn)
 
 % Cyclic graph
 % A = diag(ones(N-1,1),-1);
@@ -40,7 +40,7 @@ plot(radius.*cos(th)+center(1),radius.*sin(th)+center(2),'b')
 for k = 1:max_iter
     
     % Get new data and initialize new null velocities
-    xuni = rbtm.get_poses();                                % Get new robots' states
+    xuni = r.get_poses();                                % Get new robots' states
     x = xuni(1:2,:);                                        % Extract single integrator states
 
     dx = zeros(2,N);                                           % Initialize velocities to zero         
@@ -56,7 +56,12 @@ for k = 1:max_iter
     
 
     dx = si_to_uni_dyn(dx, xuni);                            % Convert single integrator inputs into unicycle inputs
-    rbtm.set_velocities(1:N, dx); rbtm.step();              % Set new velocities to robots and update
+    
+    % Set velocities of agents 1,...,N
+    r.set_velocities(1:N, dx);
+
+    % Send the previously set velocities to the agents.  This function must be called!
+    r.step();    
     
 end
 
