@@ -15,6 +15,7 @@ function [] = formationControlCircle(r, N, radius)
     
     % Create the si_to_uni mapping function
     [si_to_uni_dyn] = create_si_to_uni_mapping3();
+    si_barrier_certificate = create_si_barrier_certificate('SafetyRadius', 1.5*r.robot_diameter);
     
     % Generates the Weight Matrix for Noes 1:N-1 (i.e the moving nodes)
     W=zeros(N,N);
@@ -56,19 +57,20 @@ function [] = formationControlCircle(r, N, radius)
         x = xuni(1:2,:);                                        
 
         % Generate xdot for all the agents
-        for i= 1:N
+        for i= 1:N-1
             neighbors = topological_neighbors(L, i); 
             for j= neighbors
                 dx(:,i) = dx(:,i) + (x(:,j) - x(:,i))*((norm(x(:,j) - x(:,i)) - W(i,j))/(norm(x(:,j) - x(:,i) + W(i,j))));
             end
         end
+        dx(:,N) = [0;0] - x(:,N);
+        
+        % Barrier certficate for using preventing crashing in robotarium
+        dx = si_barrier_certificate(dx, xuni);
         
         % Convert single integrator inputs into unicycle inputs
         dx = si_to_uni_dyn(dx, xuni); 
         
-        % Barrier certficate for using preventing crashing in robotarium
-%         dx = si_barrier_certificate(dx, x);                    
-       
         % Set new velocities to robots and update
         r.set_velocities(1:N, dx); r.step();              
        
