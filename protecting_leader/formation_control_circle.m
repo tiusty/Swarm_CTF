@@ -13,15 +13,18 @@ function [] = formation_control_circle(r, N, radius)
    
     % Complete graph
     L = completeGL(N);
+    
+    % Create the si_to_uni mapping function
     [si_to_uni_dyn] = create_si_to_uni_mapping3();
     
     % Generates the Weight Matrix for Noes 1:N-1 (i.e the moving nodes)
     W=zeros(N,N);
     for i= 1:N-1
         for j= 1:N-1
+            % The weight to it's self should be zero
             if i == j
                 W(i,j) = 0;
-            % Care if the agent is less than pi radians around the circle
+            % Case if the agent is less than pi radians around the circle
             elseif cal_theta(i,j , N-1) < pi/2
                 W(i,j) = 2* radius*sin(cal_theta(i,j, N-1));
             % Case if the agents are more than pi radians around the circle
