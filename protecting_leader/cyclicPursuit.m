@@ -1,5 +1,16 @@
 
 function [] = cyclicPursuit(r, N, radius, max_iter)
+%   Runs cyclic pursuit so that the agents spin around the center
+%       agent evenly spaced. Will form to evenly spaced if it does
+%       not start evenly spaced
+%
+%   Arguments:
+%       r: The robotarium object
+%       N: (int) -> The number of nodes including the center agent in the
+%       graph
+%       radius: (int) -> The radius that the nodes attempt to form for the circle
+%       max_iter: (int) -> The number of iterations to run the cyclic
+%       pursuit for
 
     circularAgents = N-1;
     [si_to_uni_dyn] = create_si_to_uni_mapping3();
