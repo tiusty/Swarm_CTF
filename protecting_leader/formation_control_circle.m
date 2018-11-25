@@ -4,12 +4,11 @@ function [] = formation_control_circle(r, N, radius)
 %   around node N. Currently node N also moves to fit the formation
 %
 %   Arguments:
+%       r: The robotarium object
 %       N: (int) -> The number of nodes including the center agent in the
 %       graph
-%       rbtm: The rb.set_number_of_agents call from the
-%           robotarium
-%       si_to_uni_dyn: The function that does conversion from uni-cycle to
-%           single integrator dynamics
+%       radius: (int) -> The radius that the nodes attempt to form for the circle
+
    
     % Complete graph
     L = completeGL(N);
@@ -102,5 +101,11 @@ end
 function [theta] = cal_theta(i, j, N)
 % Returns desired theta between nodes i and j on a circle given the number
 % of nodes there should be
+%   Arguments:
+%       i: (int) ->  Node i: The first node 
+%       j: (int) -> Node j: The second node
+%       graph
+%       N: (int) -> The number of nodes including the center agent in the
+%       graph
     theta = (pi/N)*mod(j-i,N);
 end
