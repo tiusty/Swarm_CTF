@@ -1,4 +1,5 @@
 clear all, close all, clc
+% Script runs the formation control and cyclic pursuit together
 
 % Number of agents
 N=10;     
