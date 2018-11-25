@@ -63,6 +63,8 @@ function [] = formationControlCircle(r, N, radius)
                 dx(:,i) = dx(:,i) + (x(:,j) - x(:,i))*((norm(x(:,j) - x(:,i)) - W(i,j))/(norm(x(:,j) - x(:,i) + W(i,j))));
             end
         end
+        
+        % Send the center node to (0,0) to prevent out of boundary error
         dx(:,N) = [0;0] - x(:,N);
         
         % To avoid errors, we need to threshold dx
