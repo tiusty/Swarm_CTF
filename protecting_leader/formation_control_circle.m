@@ -1,5 +1,5 @@
 
-function [] = formation_control_circle(N, rbtm, si_to_uni_dyn) 
+function [] = formation_control_circle(N, r) 
 %   Runs formation control on a graph to put the agents in a circle
 %   around node N. Currently node N also moves to fit the formation
 %
@@ -13,6 +13,7 @@ function [] = formation_control_circle(N, rbtm, si_to_uni_dyn)
    
     % Complete graph
     L = completeGL(N);
+    [si_to_uni_dyn] = create_si_to_uni_mapping3();
 
     % Initial Arguments
     radius = .5;
@@ -47,7 +48,7 @@ function [] = formation_control_circle(N, rbtm, si_to_uni_dyn)
     while( result == 0)
 
         % Get new robots' states
-        xuni = rbtm.get_poses(); 
+        xuni = r.get_poses(); 
         
         % Extract single integrator states
         dx=zeros(2,N);    
@@ -70,7 +71,7 @@ function [] = formation_control_circle(N, rbtm, si_to_uni_dyn)
 %         dx = si_barrier_certificate(dx, x);                    
        
         % Set new velocities to robots and update
-        rbtm.set_velocities(1:N, dx); rbtm.step();              
+        r.set_velocities(1:N, dx); r.step();              
        
         % Exit condition:
         %   Tests to see if all the weight conditions are met

@@ -15,7 +15,7 @@ x = xuni(1:2,:);                                            % x-y positions only
 r.set_velocities(1:N, zeros(2,N));                       % Assign dummy zero velocity
 r.step();                                                % Run robotarium step
 
-formation_control_circle(N, r, si_to_uni_dyn)
+formation_control_circle(N, r)
 
 radius = .5;
 cyclicPursuit(r, N, radius, max_iter)
