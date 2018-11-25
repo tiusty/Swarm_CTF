@@ -1,5 +1,5 @@
 
-function [] = formation_control_circle(N, r) 
+function [] = formation_control_circle(r, N, radius) 
 %   Runs formation control on a graph to put the agents in a circle
 %   around node N. Currently node N also moves to fit the formation
 %
@@ -14,9 +14,6 @@ function [] = formation_control_circle(N, r)
     % Complete graph
     L = completeGL(N);
     [si_to_uni_dyn] = create_si_to_uni_mapping3();
-
-    % Initial Arguments
-    radius = .5;
     
     % Generates the Weight Matrix for Noes 1:N-1 (i.e the moving nodes)
     W=zeros(N,N);
