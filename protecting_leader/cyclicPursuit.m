@@ -48,6 +48,11 @@ function [] = cyclicPursuit(r, N, radius, max_iter)
                 end
             end
         end
+                % To avoid errors, we need to threshold dxi
+        norms = arrayfun(@(x) norm(dx(:, x)), 1:N);
+        threshold = r.max_linear_velocity/2;
+        to_thresh = norms > threshold;
+        dx(:, to_thresh) = threshold*dx(:, to_thresh)./norms(to_thresh);
         % Barrier certficate for using preventing crashing in robotarium
         dx = si_barrier_certificate(dx, xuni);
         dx = si_to_uni_dyn(dx, xuni);                            % Convert single integrator inputs into unicycle inputs

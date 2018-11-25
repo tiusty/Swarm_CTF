@@ -65,6 +65,12 @@ function [] = formationControlCircle(r, N, radius)
         end
         dx(:,N) = [0;0] - x(:,N);
         
+        % To avoid errors, we need to threshold dxi
+        norms = arrayfun(@(x) norm(dx(:, x)), 1:N);
+        threshold = r.max_linear_velocity/2;
+        to_thresh = norms > threshold;
+        dx(:, to_thresh) = threshold*dx(:, to_thresh)./norms(to_thresh);
+        
         % Barrier certficate for using preventing crashing in robotarium
         dx = si_barrier_certificate(dx, xuni);
         
