@@ -23,6 +23,3 @@ cyclicPursuit(r, N, radius, max_iter)
 % before submitting to maximize the chance that your experiment runs
 % successfully.
 r.debug();
-
-
-
