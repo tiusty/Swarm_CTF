@@ -48,7 +48,8 @@ function [] = cyclicPursuit(r, N, radius, max_iter)
                 end
             end
         end
-                % To avoid errors, we need to threshold dxi
+        
+        % To avoid errors, we need to threshold dx
         norms = arrayfun(@(x) norm(dx(:, x)), 1:N);
         threshold = r.max_linear_velocity/2;
         to_thresh = norms > threshold;

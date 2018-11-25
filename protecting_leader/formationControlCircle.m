@@ -65,7 +65,7 @@ function [] = formationControlCircle(r, N, radius)
         end
         dx(:,N) = [0;0] - x(:,N);
         
-        % To avoid errors, we need to threshold dxi
+        % To avoid errors, we need to threshold dx
         norms = arrayfun(@(x) norm(dx(:, x)), 1:N);
         threshold = r.max_linear_velocity/2;
         to_thresh = norms > threshold;
