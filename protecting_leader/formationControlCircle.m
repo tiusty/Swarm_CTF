@@ -15,6 +15,8 @@ function [] = formationControlCircle(r, N, radius)
     
     % Create the si_to_uni mapping function
     [si_to_uni_dyn] = create_si_to_uni_mapping3();
+    
+    % Create barrier certificate fucntion
     si_barrier_certificate = create_si_barrier_certificate('SafetyRadius', 1.5*r.robot_diameter);
     
     % Generates the Weight Matrix for Noes 1:N-1 (i.e the moving nodes)

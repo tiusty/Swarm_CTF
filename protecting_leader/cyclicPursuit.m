@@ -13,9 +13,13 @@ function [] = cyclicPursuit(r, N, radius, max_iter)
 %       pursuit for
 
     circularAgents = N-1;
+    
+    % Create the si_to_uni mapping function
     [si_to_uni_dyn] = create_si_to_uni_mapping3();
+    
+    % Create barrier certificate fucntion
     si_barrier_certificate = create_si_barrier_certificate('SafetyRadius', 1.5*r.robot_diameter);
-   
+
     
     % Cyclic graph
     L = directedCircleGraphLaplacian(circularAgents);
@@ -23,6 +27,7 @@ function [] = cyclicPursuit(r, N, radius, max_iter)
     L = [L ; zeros(2,N+1)];
     L(N,N) = 1;
     L(N,N+1)= -1;
+    
     % Target cycle definition
     interAgentDistance = radius*2*sin(pi/circularAgents);
     kp1 = 8;
@@ -55,10 +60,14 @@ function [] = cyclicPursuit(r, N, radius, max_iter)
         threshold = r.max_linear_velocity/2;
         to_thresh = norms > threshold;
         dx(:, to_thresh) = threshold*dx(:, to_thresh)./norms(to_thresh);
+        
         % Barrier certficate for using preventing crashing in robotarium
         dx = si_barrier_certificate(dx, xuni);
-        dx = si_to_uni_dyn(dx, xuni);                            % Convert single integrator inputs into unicycle inputs
-        r.set_velocities(1:N, dx); 
-        r.step();
+        
+        % Convert single integrator inputs into unicycle inputs
+        dx = si_to_uni_dyn(dx, xuni); 
+        
+        % Set new velocities to robots and update
+        r.set_velocities(1:N, dx); r.step();     
     end
 end
