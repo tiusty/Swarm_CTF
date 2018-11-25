@@ -13,7 +13,7 @@ radius = .5;
 r = Robotarium('NumberOfRobots', N, 'ShowFigure', true);
 
 % Run the formation control
-formation_control_circle(r, N, radius)
+formationControlCircle(r, N, radius)
 
 % Run the cyclic Pursuit
 cyclicPursuit(r, N, radius, max_iter)

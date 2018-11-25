@@ -1,5 +1,5 @@
 
-function [] = formation_control_circle(r, N, radius) 
+function [] = formationControlCircle(r, N, radius) 
 %   Runs formation control on a graph to put the agents in a circle
 %   around node N. Currently node N also moves to fit the formation
 %
