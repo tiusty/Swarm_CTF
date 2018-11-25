@@ -25,9 +25,10 @@ function [] = cyclicPursuit(r, N, radius, max_iter)
     L(N,N+1)= -1;
     % Target cycle definition
     interAgentDistance = radius*2*sin(pi/circularAgents);
-    kp1 = 7;
+    kp1 = 8;
     kp2 = 0.4;
     xanchor = [-0.7;0.3];
+    
     for k = 1:max_iter   
         
         % Get new data and initialize new null velocities
