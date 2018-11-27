@@ -5,9 +5,9 @@ clear all, close all, clc
 N=7;     
 
 % Number of iterations to run
-max_iter = 1000;           
+max_iter = 1500;           
 
-xanchor = [.7; .5];
+xanchor = [1; 1];
 
 % The radius of the formation and the radius to run cyclic pursuit
 radius = .5;

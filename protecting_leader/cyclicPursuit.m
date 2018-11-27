@@ -68,5 +68,9 @@ function [] = cyclicPursuit(r, N, radius, max_iter , xanchor)
         
         % Set new velocities to robots and update
         r.set_velocities(1:N, dx); r.step();     
+        if k == max_iter -1
+            disp('hi');
+        end
+        
     end
 end
