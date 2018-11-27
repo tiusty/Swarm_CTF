@@ -1,5 +1,5 @@
 
-function [] = cyclicPursuit(r, N, radius, max_iter)
+function [] = cyclicPursuit(r, N, radius, max_iter , xanchor)
 %   Runs cyclic pursuit so that the agents spin around the center
 %       agent evenly spaced. Will form to evenly spaced if it does
 %       not start evenly spaced
@@ -32,7 +32,6 @@ function [] = cyclicPursuit(r, N, radius, max_iter)
     interAgentDistance = radius*2*sin(pi/circularAgents);
     kp1 = 8;
     kp2 = 0.4;
-    xanchor = [-0.7;0.3];
     
     for k = 1:max_iter   
         

@@ -7,6 +7,8 @@ N=7;
 % Number of iterations to run
 max_iter = 1000;           
 
+xanchor = [.7; .5];
+
 % The radius of the formation and the radius to run cyclic pursuit
 radius = .5;
 
@@ -17,9 +19,9 @@ r = Robotarium('NumberOfRobots', N, 'ShowFigure', true);
 formationControlCircle(r, N, radius)
 
 % Run the cyclic Pursuit
-cyclicPursuit(r, N, radius, max_iter)
+cyclicPursuit(r, N, radius, max_iter, xanchor)
 
 % We can call this function to debug our experiment!  Fix all the errors
-% before submitting to maximize the chance that your experiment runs
+% before submitting  to maximize the chance that your experiment runs
 % successfully.
 r.debug();
