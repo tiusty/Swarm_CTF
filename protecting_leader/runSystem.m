@@ -16,7 +16,6 @@ radius = .5;
 % Initialize robotarium
 r = Robotarium('NumberOfRobots', N, 'ShowFigure', true);
 
-
 % Center node attempts to find the flag
 findFlag(r, N, flag)
 
