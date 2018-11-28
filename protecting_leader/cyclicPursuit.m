@@ -1,5 +1,5 @@
 
-function [] = cyclicPursuit(r, N, radius, max_iter , xanchor)
+function [] = cyclicPursuit(r, N, radius, max_iter , xanchor, flag_plot)
 %   Runs cyclic pursuit so that the agents spin around the center
 %       agent evenly spaced. Will form to evenly spaced if it does
 %       not start evenly spaced
@@ -20,7 +20,6 @@ function [] = cyclicPursuit(r, N, radius, max_iter , xanchor)
     % Create barrier certificate fucntion
     si_barrier_certificate = create_si_barrier_certificate('SafetyRadius', 1.5*r.robot_diameter);
 
-    
     % Cyclic graph
     L = directedCircleGraphLaplacian(circularAgents);
     L = [L zeros(circularAgents,2)];
@@ -67,6 +66,9 @@ function [] = cyclicPursuit(r, N, radius, max_iter , xanchor)
         dx = si_to_uni_dyn(dx, xuni); 
       
         % Set new velocities to robots and update
-        r.set_velocities(1:N, dx); r.step();     
+        r.set_velocities(1:N, dx); r.step();   
+        
+        flag_plot.XData = x(1,N);
+        flag_plot.YData = x(2,N);
     end
 end

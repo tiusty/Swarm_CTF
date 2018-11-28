@@ -1,5 +1,5 @@
 
-function [] = findFlag(r, N, flag) 
+function [] = findFlag(r, N, flag, flag_plot) 
 % Loop until the formation is achieved
     % Create the si_to_uni mapping function
     [si_to_uni_dyn] = create_si_to_uni_mapping3();
@@ -7,7 +7,6 @@ function [] = findFlag(r, N, flag)
     % Create barrier certificate fucntion
     si_barrier_certificate = create_si_barrier_certificate('SafetyRadius', 1.5*r.robot_diameter);
     result = 0;
-    
     
     while( result == 0)
 
@@ -54,5 +53,8 @@ function [] = findFlag(r, N, flag)
         if norm(x(:,N) - flag) < .2
             result = 1;
         end
+        
+        flag_plot.XData = flag(1);
+        flag_plot.YData = flag(2);
     end
 end

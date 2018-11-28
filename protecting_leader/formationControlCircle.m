@@ -1,5 +1,5 @@
 
-function [] = formationControlCircle(r, N, radius, flag) 
+function [] = formationControlCircle(r, N, radius, flag, flag_plot) 
 %   Runs formation control on a graph to put the agents in a circle
 %   around node N. Currently node N also moves to fit the formation
 %
@@ -45,7 +45,7 @@ function [] = formationControlCircle(r, N, radius, flag)
 
     % Flag variable to test for condition is reached
     result = 0;
-    
+
     % Loop until the formation is achieved
     while( result == 0)
 
@@ -105,6 +105,8 @@ function [] = formationControlCircle(r, N, radius, flag)
             result = 1;
         end
         
+        flag_plot.XData = x(1,N);
+        flag_plot.YData = x(2,N);
         
     end
  
