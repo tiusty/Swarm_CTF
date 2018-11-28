@@ -26,6 +26,8 @@ function [] = cyclicPursuit(r, N, radius, max_iter , xanchor, flag_plot)
     L = [L zeros(circularAgents,2)];
     L = [L ; zeros(2,N+1)];
     
+
+    
     L(N,N) = 1;
     L(N,N+1)= -1;
     
@@ -47,7 +49,28 @@ function [] = cyclicPursuit(r, N, radius, max_iter , xanchor, flag_plot)
         xuni = r.get_poses();                                % Get new robots' states
         x = xuni(1:2,:);                                        % Extract single integrator states
         center = x(:,N);
-        dx = zeros(2,N);                                           % Initialize velocities to zero         
+        dx = zeros(2,N);  
+        
+        if (k == 1)
+            theta = atan2(x(2,1) - center(2), x(1,1) -center(1));
+    
+            x_loc = radius * cos(theta + 2*pi/(N-1)) + center(1);
+            y_loc = radius * sin(theta + 2*pi/(N-1)) + center(2);
+
+            plot(x_loc, y_loc, '-.ob')
+            dist_2 = norm(x(:,2) - [x_loc, y_loc]);
+            dist_6 = norm(x(:,6) - [x_loc, y_loc]);
+
+            if (dist_6 < dist_2)
+               L = transpose(L);
+            end 
+            
+            L(N,N) = 1;
+            L(N,N+1)= -1;
+        end
+        
+        
+        % Initialize velocities to zero         
         for i = 1:N               
             for j = topological_neighbors(L,i)
                 if ~isempty(j)
@@ -56,7 +79,10 @@ function [] = cyclicPursuit(r, N, radius, max_iter , xanchor, flag_plot)
                         R = [cos(alpha), sin(alpha); -sin(alpha) cos(alpha)];
                         dx(:,i) = dx(:,i) + R*( x(:,j)-x(:,i) ) - kp2*(x(:,i) - center) + (norm(x(:, i) - center)^2 - radius^2)*(center - x(:, i));
                     else
-                        dx(:,i) = .01*(xanchor-x(:,i));
+                        
+                        if (k > 200)                        
+                            dx(:,i) = .01*(xanchor-x(:,i));
+                        end
                     end
                 end
             end
