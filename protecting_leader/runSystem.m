@@ -19,8 +19,13 @@ r = Robotarium('NumberOfRobots', N, 'ShowFigure', true);
 % Create plot handle for flag
 flag_plot = plot(-100, -100, '-db', 'lineWidth', 3);
 
+% Plot flag start location
 plot(flag(1), flag(2), '-or');
+
+% Plot base or goal location
 plot(base(1), base(2), '-xr', 'lineWidth', 3);
+
+% Create line to distinigsh zone of control
 line([0 0], [-100, 100]);
 
 % Center node attempts to find the flag
