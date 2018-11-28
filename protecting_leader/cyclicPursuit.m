@@ -12,6 +12,16 @@ function [] = cyclicPursuit(r, N, radius, max_iter , xanchor, flag_plot)
 %       max_iter: (int) -> The number of iterations to run the cyclic
 %       pursuit for
 
+    % Get new data and initialize new null velocities
+    xuni = r.get_poses();                                % Get new robots' states
+    x = xuni(1:2,:); 
+                                           % Extract single integrator states
+                                           % Extract single integrator states
+        center = x(:,N);
+    % Set new velocities to robots and update
+        r.set_velocities(1:N, dx); r.step();   
+        
+    
     circularAgents = N-1;
     
     % Create the si_to_uni mapping function
@@ -20,17 +30,29 @@ function [] = cyclicPursuit(r, N, radius, max_iter , xanchor, flag_plot)
     % Create barrier certificate fucntion
     si_barrier_certificate = create_si_barrier_certificate('SafetyRadius', 1.5*r.robot_diameter);
     
+    % Agent label
+    plTx = cell(N,1);
+    for i=1:N 
+        plTx{i} = text(x(1,i)+0.05,x(2,i)+0.05,num2str(i)); 
+    end
     
     % Cyclic graph
     L = directedCircleGraphLaplacian(circularAgents);
     L = [L zeros(circularAgents,2)];
     L = [L ; zeros(2,N+1)];
+   
+   
+    theta = atan2(x(2,1) - center(2), x(1,1) -center(1))
     
-    cal_theta(1, 6, N)
-    cal_theta(1, 2, N)
+    x_loc = radius * cos(theta + 2*pi/(N-1)) + center(1);
+    y_loc = radius * sin(theta + 2*pi/(N-1)) + center(2);
     
-    if (cal_theta(1, 6, N) > cal_theta(1, 2, N))
-        L = transpose(L);
+    plot(x_loc, y_loc, '-.ob')
+    dist_2 = norm(x(:,2) - [x_loc, y_loc]);
+    dist_6 = norm(x(:,6) - [x_loc, y_loc]);
+    
+    if (dist_6 < dist_2)
+       L = transpose(L);
     end
     
     L(N,N) = 1;
@@ -41,19 +63,14 @@ function [] = cyclicPursuit(r, N, radius, max_iter , xanchor, flag_plot)
     kp1 = 8;
     kp2 = 0.4;
     
-    % Agent label
-    plTx = cell(N,1);
-    for i=1:N 
-        plTx{i} = text(-100,-100,num2str(i)); 
-    end
+
 
     
     for k = 1:max_iter   
         
         % Get new data and initialize new null velocities
         xuni = r.get_poses();                                % Get new robots' states
-        x = xuni(1:2,:);                                        % Extract single integrator states
-        center = x(:,N);
+        x = xuni(1:2,:); 
         dx = zeros(2,N);                                           % Initialize velocities to zero         
         for i = 1:N               
             for j = topological_neighbors(L,i)
@@ -104,5 +121,5 @@ function [theta] = cal_theta(i, j, N)
 %       graph
 %       N: (int) -> The number of nodes including the center agent in the
 %       graph
-    theta = (pi/N)*mod(j-i,N);
+    theta = (2*pi/(N-1))*mod(j-i,N);
 end
