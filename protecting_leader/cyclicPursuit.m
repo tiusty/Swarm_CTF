@@ -57,7 +57,6 @@ function [] = cyclicPursuit(r, N, radius, max_iter , xanchor, flag_plot)
             x_loc = radius * cos(theta + 2*pi/(N-1)) + center(1);
             y_loc = radius * sin(theta + 2*pi/(N-1)) + center(2);
 
-            plot(x_loc, y_loc, '-.ob')
             dist_2 = norm(x(:,2) - [x_loc, y_loc]);
             dist_6 = norm(x(:,6) - [x_loc, y_loc]);
 
