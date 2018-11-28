@@ -26,13 +26,6 @@ function [] = cyclicPursuit(r, N, radius, max_iter , xanchor, flag_plot)
     L = [L zeros(circularAgents,2)];
     L = [L ; zeros(2,N+1)];
     
-    cal_theta(1, 6, N)
-    cal_theta(1, 2, N)
-    
-    if (cal_theta(1, 6, N) > cal_theta(1, 2, N))
-        L = transpose(L);
-    end
-    
     L(N,N) = 1;
     L(N,N+1)= -1;
     
