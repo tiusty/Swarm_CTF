@@ -18,6 +18,7 @@ function [] = cyclicPursuit(r, N, radius, max_iter , xanchor, flag_plot)
                                            % Extract single integrator states
                                            % Extract single integrator states
         center = x(:,N);
+    dx = zeros(2,N); 
     % Set new velocities to robots and update
         r.set_velocities(1:N, dx); r.step();   
         
