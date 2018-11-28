@@ -13,6 +13,12 @@ function [] = formationControlCircle(r, N, radius, flag, flag_plot)
     % Complete graph
     L = completeGL(N);
     
+    % Agent label
+    plTx = cell(N,1);
+    for i=1:N
+        plTx{i} = text(-100,-100,num2str(i)); 
+    end
+    
     % Create the si_to_uni mapping function
     [si_to_uni_dyn] = create_si_to_uni_mapping3();
     
@@ -108,7 +114,14 @@ function [] = formationControlCircle(r, N, radius, flag, flag_plot)
         flag_plot.XData = x(1,N);
         flag_plot.YData = x(2,N);
         
+        for i = 1:N 
+            set(plTx{i},'position',[x(1,i)+0.05,x(2,i)+0.05])
+        end
+        
     end
+     for i = 1:N 
+            set(plTx{i},'position',[-100,-100])
+        end
  
 disp('Done with formation')
 

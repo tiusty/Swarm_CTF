@@ -13,6 +13,7 @@ max_iter = 5000;
 % The radius of the formation and the radius to run cyclic pursuit
 radius = .5;
 
+
 % Initialize robotarium
 r = Robotarium('NumberOfRobots', N, 'ShowFigure', true);
     

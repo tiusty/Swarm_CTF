@@ -19,11 +19,20 @@ function [] = cyclicPursuit(r, N, radius, max_iter , xanchor, flag_plot)
     
     % Create barrier certificate fucntion
     si_barrier_certificate = create_si_barrier_certificate('SafetyRadius', 1.5*r.robot_diameter);
-
+    
+    
     % Cyclic graph
     L = directedCircleGraphLaplacian(circularAgents);
     L = [L zeros(circularAgents,2)];
     L = [L ; zeros(2,N+1)];
+    
+    cal_theta(1, 6, N)
+    cal_theta(1, 2, N)
+    
+    if (cal_theta(1, 6, N) > cal_theta(1, 2, N))
+        L = transpose(L);
+    end
+    
     L(N,N) = 1;
     L(N,N+1)= -1;
     
@@ -31,6 +40,13 @@ function [] = cyclicPursuit(r, N, radius, max_iter , xanchor, flag_plot)
     interAgentDistance = radius*2*sin(pi/circularAgents);
     kp1 = 8;
     kp2 = 0.4;
+    
+    % Agent label
+    plTx = cell(N,1);
+    for i=1:N 
+        plTx{i} = text(-100,-100,num2str(i)); 
+    end
+
     
     for k = 1:max_iter   
         
@@ -47,7 +63,7 @@ function [] = cyclicPursuit(r, N, radius, max_iter , xanchor, flag_plot)
                         R = [cos(alpha), sin(alpha); -sin(alpha) cos(alpha)];
                         dx(:,i) = dx(:,i) + R*( x(:,j)-x(:,i) ) - kp2*(x(:,i) - center) + (norm(x(:, i) - center)^2 - radius^2)*(center - x(:, i));
                     else
-                        dx(:,i) = .02*(xanchor-x(:,i));
+                        dx(:,i) = .01*(xanchor-x(:,i));
                     end
                 end
             end
@@ -70,5 +86,23 @@ function [] = cyclicPursuit(r, N, radius, max_iter , xanchor, flag_plot)
         
         flag_plot.XData = x(1,N);
         flag_plot.YData = x(2,N);
+        
+        for i = 1:N 
+            set(plTx{i},'position',[x(1,i)+0.05,x(2,i)+0.05])
+        end
+        
+        
     end
+end
+
+function [theta] = cal_theta(i, j, N)
+% Returns desired theta between nodes i and j on a circle given the number
+% of nodes there should be
+%   Arguments:
+%       i: (int) ->  Node i: The first node 
+%       j: (int) -> Node j: The second node
+%       graph
+%       N: (int) -> The number of nodes including the center agent in the
+%       graph
+    theta = (pi/N)*mod(j-i,N);
 end
