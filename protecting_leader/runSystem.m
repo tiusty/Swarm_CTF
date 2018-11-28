@@ -4,8 +4,8 @@ clear all, close all, clc
 % Number of agents
 N=7;
 
-flag = [.5;0];
-base = [-.5; 0];
+flag = [.8;0];
+base = [-.8; 0];
 
 % Number of iterations to run
 max_iter = 5000;           
@@ -17,7 +17,11 @@ radius = .5;
 r = Robotarium('NumberOfRobots', N, 'ShowFigure', true);
     
 % Create plot handle for flag
-flag_plot = plot([0,0], [0,0], '-db');
+flag_plot = plot(-100, -100, '-db', 'lineWidth', 3);
+
+plot(flag(1), flag(2), '-or');
+plot(base(1), base(2), '-xr', 'lineWidth', 3);
+line([0 0], [-100, 100]);
 
 % Center node attempts to find the flag
 findFlag(r, N, flag, flag_plot)
