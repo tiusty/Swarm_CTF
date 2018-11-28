@@ -1,5 +1,5 @@
 
-function [] = formationControlCircle(r, N, radius) 
+function [] = formationControlCircle(r, N, radius, flag) 
 %   Runs formation control on a graph to put the agents in a circle
 %   around node N. Currently node N also moves to fit the formation
 %
@@ -67,7 +67,7 @@ function [] = formationControlCircle(r, N, radius)
         end
         
         % Send the center node to (0,0) to prevent out of boundary error
-        dx(:,N) = [0;0] - x(:,N);
+        dx(:,N) = flag - x(:,N);
         
         % To avoid errors, we need to threshold dx
         norms = arrayfun(@(x) norm(dx(:, x)), 1:N);

@@ -48,7 +48,7 @@ function [] = cyclicPursuit(r, N, radius, max_iter , xanchor)
                         R = [cos(alpha), sin(alpha); -sin(alpha) cos(alpha)];
                         dx(:,i) = dx(:,i) + R*( x(:,j)-x(:,i) ) - kp2*(x(:,i) - center) + (norm(x(:, i) - center)^2 - radius^2)*(center - x(:, i));
                     else
-                        dx(:,i) = .01*(xanchor-x(:,i));
+                        dx(:,i) = .06*(xanchor-x(:,i));
                     end
                 end
             end
