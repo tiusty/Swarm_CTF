@@ -7,6 +7,8 @@ function [] = findFlag(r, N, flag)
     % Create barrier certificate fucntion
     si_barrier_certificate = create_si_barrier_certificate('SafetyRadius', 1.5*r.robot_diameter);
     result = 0;
+    
+    
     while( result == 0)
 
         % Get new robots' states
@@ -52,6 +54,5 @@ function [] = findFlag(r, N, flag)
         if norm(x(:,N) - flag) < .2
             result = 1;
         end
-       
     end
 end

@@ -48,7 +48,7 @@ function [] = cyclicPursuit(r, N, radius, max_iter , xanchor)
                         R = [cos(alpha), sin(alpha); -sin(alpha) cos(alpha)];
                         dx(:,i) = dx(:,i) + R*( x(:,j)-x(:,i) ) - kp2*(x(:,i) - center) + (norm(x(:, i) - center)^2 - radius^2)*(center - x(:, i));
                     else
-                        dx(:,i) = .06*(xanchor-x(:,i));
+                        dx(:,i) = .02*(xanchor-x(:,i));
                     end
                 end
             end
@@ -65,12 +65,8 @@ function [] = cyclicPursuit(r, N, radius, max_iter , xanchor)
         
         % Convert single integrator inputs into unicycle inputs
         dx = si_to_uni_dyn(dx, xuni); 
-        
+      
         % Set new velocities to robots and update
         r.set_velocities(1:N, dx); r.step();     
-        if k == max_iter -1
-            disp('hi');
-        end
-        
     end
 end

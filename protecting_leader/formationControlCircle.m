@@ -104,6 +104,8 @@ function [] = formationControlCircle(r, N, radius, flag)
         if done == 0
             result = 1;
         end
+        
+        
     end
  
 disp('Done with formation')
