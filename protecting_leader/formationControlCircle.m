@@ -99,7 +99,7 @@ function [] = formationControlCircle(r, N, radius, flag, flag_plot)
                 %   the agents met the desired formation
                 % A small offset is given since the agent doesn't need to
                 % be exactly on the point
-                if norm(x(:,i)-x(:,j)) < W(i,j) - .05 || norm(x(:,i)-x(:,j)) > W(i,j) + .05
+                if norm(x(:,i)-x(:,j)) < W(i,j) - .03 || norm(x(:,i)-x(:,j)) > W(i,j) + .03
                      done = 1;                    
                 end
             end  
