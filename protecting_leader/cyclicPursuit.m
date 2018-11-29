@@ -26,8 +26,6 @@ function [] = cyclicPursuit(r, N, radius, max_iter , xanchor, flag_plot)
     L = [L zeros(circularAgents,2)];
     L = [L ; zeros(2,N+1)];
     
-
-    
     L(N,N) = 1;
     L(N,N+1)= -1;
     
@@ -51,6 +49,8 @@ function [] = cyclicPursuit(r, N, radius, max_iter , xanchor, flag_plot)
         center = x(:,N);
         dx = zeros(2,N);  
         
+        % Flip the laplasian depending on the order of the nodes when the 
+        %   circle is formed
         if (k == 1)
             theta = atan2(x(2,1) - center(2), x(1,1) -center(1));
     
@@ -80,7 +80,7 @@ function [] = cyclicPursuit(r, N, radius, max_iter , xanchor, flag_plot)
                     else
                         
                         if (k > 100)                        
-                            dx(:,i) = .02*(xanchor-x(:,i));
+                            dx(:,i) = .03*(xanchor-x(:,i));
                         end
                     end
                 end
